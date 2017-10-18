@@ -1,0 +1,41 @@
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "variables";
+
+
+// W3CSS
+@import "~w3-css/w3.css";
+
+
+body {
+  background-color: $body-bg;
+  color: $default-font-color;
+}
+
+.form-bg {
+  background-color: $form-bg;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li:hover {
+  color: $link-hover;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.close {
+  cursor: pointer;
+}
+
+.close:hover {
+  color: orange;
+}

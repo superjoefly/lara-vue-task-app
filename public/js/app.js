@@ -40220,7 +40220,7 @@ exports = module.exports = __webpack_require__(40)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -40740,6 +40740,66 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -40748,26 +40808,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         name: '',
         description: ''
       },
-      errors: []
+      errors: [],
+      tasks: [],
+      update_task: {}
     };
+  },
+  mounted: function mounted() {
+    this.readTasks();
   },
 
   methods: {
-    openModal: function openModal() {
+    // Create Task
+    initTask: function initTask() {
       document.getElementById('id01').style.display = 'block';
     },
-    closeModal: function closeModal() {
+    closeTask: function closeTask() {
       document.getElementById('id01').style.display = 'none';
     },
     createTask: function createTask() {
       var _this = this;
 
+      // Will use store() method in TaskController
       axios.post('/task', {
         name: this.task.name,
         description: this.task.description
       }).then(function (response) {
         _this.reset();
         document.getElementById('id01').style.display = 'none';
+        _this.readTasks();
       }).catch(function (error) {
         _this.errors = [];
         if (error.response.data.errors.name) {
@@ -40781,6 +40849,45 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     reset: function reset() {
       this.task.name = '';
       this.task.description = '';
+    },
+    readTasks: function readTasks() {
+      var _this2 = this;
+
+      // Will use index() method in TaskController
+      axios.get('/task').then(function (response) {
+        _this2.tasks = response.data.tasks;
+      }).catch(function (error) {
+        console.log(error);
+      });
+    },
+
+
+    // Update Task
+    initUpdate: function initUpdate(index) {
+      this.errors = [];
+      document.getElementById('id02').style.display = 'block';
+      this.update_task = this.tasks[index];
+    },
+    closeUpdate: function closeUpdate() {
+      document.getElementById('id02').style.display = 'none';
+    },
+    updateTask: function updateTask() {
+      var _this3 = this;
+
+      axios.patch('/task/' + this.update_task.id, {
+        name: this.update_task.name,
+        description: this.update_task.description
+      }).then(function (response) {
+        document.getElementById('id02').style.display = 'none';
+      }).catch(function (error) {
+        _this3.errors = [];
+        if (error.response.data.errors.name) {
+          _this3.errors.push(error.response.data.errors.name[0]);
+        }
+        if (error.response.data.errors.description) {
+          _this3.errors.push(error.response.data.errors.description[0]);
+        }
+      });
     }
   }
 });
@@ -40805,7 +40912,7 @@ var render = function() {
               staticClass: "w3-button w3-block w3-teal",
               on: {
                 click: function($event) {
-                  _vm.openModal()
+                  _vm.initTask()
                 }
               }
             },
@@ -40813,7 +40920,53 @@ var render = function() {
           )
         ]),
         _vm._v(" "),
-        _vm._m(1),
+        _c("div", { staticClass: "w3-margin" }, [
+          _vm.tasks.length > 0
+            ? _c("table", { staticClass: "w3-table-all" }, [
+                _c(
+                  "tbody",
+                  [
+                    _vm._m(1),
+                    _vm._v(" "),
+                    _vm._l(_vm.tasks, function(task, index) {
+                      return _c("tr", [
+                        _c("td", [_vm._v(_vm._s(index + 1))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(task.name))]),
+                        _vm._v(" "),
+                        _c("td", [_vm._v(_vm._s(task.description))]),
+                        _vm._v(" "),
+                        _c("td", [
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "w3-button w3-green w3-small w3-round",
+                              on: {
+                                click: function($event) {
+                                  _vm.initUpdate(index)
+                                }
+                              }
+                            },
+                            [_vm._v("Edit")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "w3-button w3-red w3-small w3-round"
+                            },
+                            [_vm._v("Delete")]
+                          )
+                        ])
+                      ])
+                    })
+                  ],
+                  2
+                )
+              ])
+            : _vm._e()
+        ]),
         _vm._v(" "),
         _c("div", { staticClass: "w3-modal", attrs: { id: "id01" } }, [
           _c(
@@ -40828,7 +40981,7 @@ var render = function() {
                       "w3-display-topright w3-xxlarge w3-padding close",
                     on: {
                       click: function($event) {
-                        _vm.closeModal()
+                        _vm.closeTask()
                       }
                     }
                   },
@@ -40945,6 +41098,142 @@ var render = function() {
               ])
             ]
           )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "w3-modal", attrs: { id: "id02" } }, [
+          _c(
+            "div",
+            { staticClass: "w3-modal-content w3-animate-opacity w3-card-4" },
+            [
+              _c("header", { staticClass: "w3-container w3-teal" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass:
+                      "w3-display-topright w3-xxlarge w3-padding close",
+                    on: {
+                      click: function($event) {
+                        _vm.closeUpdate()
+                      }
+                    }
+                  },
+                  [_vm._v("×")]
+                ),
+                _vm._v(" "),
+                _c("h2", [_vm._v("Update Task")])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "w3-container w3-margin" }, [
+                _c("div", { staticClass: "w3-container" }, [
+                  _c(
+                    "label",
+                    { staticClass: "w3-large", attrs: { for: "name" } },
+                    [_vm._v("Name:")]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.update_task.name,
+                        expression: "update_task.name"
+                      }
+                    ],
+                    staticClass: "w3-input",
+                    attrs: {
+                      type: "text",
+                      name: "name",
+                      id: "name",
+                      placeholder: "Task Name ..."
+                    },
+                    domProps: { value: _vm.update_task.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.update_task, "name", $event.target.value)
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("div", { staticClass: "w3-container" }, [
+                  _c(
+                    "label",
+                    { staticClass: "w3-large", attrs: { for: "description" } },
+                    [_vm._v("Description:")]
+                  ),
+                  _vm._v(" "),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.update_task.description,
+                        expression: "update_task.description"
+                      }
+                    ],
+                    staticClass: "w3-border-bottom",
+                    staticStyle: { width: "100%", border: "none" },
+                    attrs: {
+                      name: "description",
+                      rows: "8",
+                      cols: "50",
+                      placeholder: "Task Description ..."
+                    },
+                    domProps: { value: _vm.update_task.description },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.update_task,
+                          "description",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _vm.errors.length > 0
+                ? _c("div", { staticClass: "w3-text-red w3-small" }, [
+                    _c(
+                      "ul",
+                      _vm._l(_vm.errors, function(error) {
+                        return _c("li", [
+                          _vm._v(
+                            "\n                  " +
+                              _vm._s(error) +
+                              "\n                "
+                          )
+                        ])
+                      })
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("footer", { staticClass: "w3-container w3-teal" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "w3-button w3-white w3-margin w3-right",
+                    attrs: { type: "button" },
+                    on: { click: _vm.updateTask }
+                  },
+                  [_vm._v("Submit")]
+                )
+              ])
+            ]
+          )
         ])
       ])
     ])
@@ -40955,7 +41244,7 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w3-panel w3-pale-blue" }, [
+    return _c("div", { staticClass: "w3-panel w3-pale-blue w3-margin" }, [
       _c("h1", [_vm._v("Task App")])
     ])
   },
@@ -40963,8 +41252,14 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "w3-container w3-margin w3-border" }, [
-      _c("p", [_vm._v("Body")])
+    return _c("tr", [
+      _c("th", [_vm._v("No.")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Description")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Action")])
     ])
   }
 ]

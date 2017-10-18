@@ -18,7 +18,11 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $tasks = Task::where(['user_id' => \Auth::user()->id])->get();
+
+        return response()->json([
+          'tasks' => $tasks,
+        ], 200);
     }
 
     /**
@@ -47,7 +51,7 @@ class TaskController extends Controller
         $task = Task::create([
           'name' => request('name'),
           'description' => request('description'),
-          'user_id' => Auth::user()->id
+          'user_id' => \Auth::user()->id
         ]);
 
         return response()->json([
@@ -87,7 +91,18 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|max:255',
+            'description' => 'required',
+        ]);
+
+        $task->name = request('name');
+        $task->description = request('description');
+        $task->save();
+
+        return response()->json([
+            'message' => 'Task Updated Successfully!'
+        ], 200);
     }
 
     /**

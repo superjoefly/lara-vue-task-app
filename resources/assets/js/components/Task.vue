@@ -12,8 +12,27 @@
           <button class="w3-button w3-block w3-teal" @click="openModal()">Add Task</button>
         </div>
 
+        <!-- Table to Display Tasks -->
         <div class="w3-container w3-margin w3-border">
-          <p>Body</p>
+          <table class="w3-table-all" v-if="tasks.length > 0">
+            <tbody>
+              <tr>
+                <th>No.</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+              <tr v-for="(task, index) in tasks">
+                <td>{{ index + 1 }}</td>
+                <td>{{ task.name }}</td>
+                <td>{{ task.description }}</td>
+                <td>
+                  <button class="w3-button w3-green">Edit</button>
+                  <button class="w3-button w3-red">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
           <!-- Modal -->
@@ -26,14 +45,6 @@
                 <h2>Add a New Task</h2>
               </header>
 
-              <!-- Errors -->
-              <div class="w3-text-red w3-small" v-if="errors.length > 0">
-                <ul>
-                  <li v-for="error in errors">
-                    {{ error }}
-                  </li>
-                </ul>
-              </div>
 
               <div class="w3-container w3-margin">
                 <div class="w3-container">
@@ -48,6 +59,15 @@
                   <br>
                   <textarea name="description" rows="8" cols="50" class="w3-border-bottom" style="width: 100%; border: none;" placeholder="Task Description ..." v-model="task.description"></textarea>
                 </div>
+              </div>
+
+              <!-- Errors -->
+              <div class="w3-text-red w3-small" v-if="errors.length > 0">
+                <ul>
+                  <li v-for="error in errors">
+                    {{ error }}
+                  </li>
+                </ul>
               </div>
 
               <footer class="w3-container w3-teal">

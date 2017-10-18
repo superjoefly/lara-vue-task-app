@@ -220,10 +220,6 @@ ul {
   list-style-type: none;
 }
 
-li:hover {
-  color: #000000;
-}
-
 a {
   text-decoration: none;
   cursor: pointer;

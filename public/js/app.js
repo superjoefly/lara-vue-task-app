@@ -40220,7 +40220,7 @@ exports = module.exports = __webpack_require__(40)(undefined);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -40810,7 +40810,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       },
       errors: [],
       tasks: [],
-      update_task: {}
+      update_task: {},
+      message: ''
     };
   },
   mounted: function mounted() {
@@ -40879,6 +40880,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         description: this.update_task.description
       }).then(function (response) {
         document.getElementById('id02').style.display = 'none';
+        _this3.readTasks();
       }).catch(function (error) {
         _this3.errors = [];
         if (error.response.data.errors.name) {
@@ -40888,6 +40890,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           _this3.errors.push(error.response.data.errors.description[0]);
         }
       });
+    },
+    deleteTask: function deleteTask(index) {
+      var _this4 = this;
+
+      var conf = confirm('Delete Task?');
+      if (conf === true) {
+        axios.delete('/task/' + this.tasks[index].id).then(function (response) {
+          _this4.tasks.splice(index, 1);
+          _this4.readTasks();
+        }).catch(function (error) {
+          _this4.message = 'Unable to delete task!';
+        });
+      }
     }
   }
 });
@@ -40954,7 +40969,12 @@ var render = function() {
                           _c(
                             "button",
                             {
-                              staticClass: "w3-button w3-red w3-small w3-round"
+                              staticClass: "w3-button w3-red w3-small w3-round",
+                              on: {
+                                click: function($event) {
+                                  _vm.deleteTask(index)
+                                }
+                              }
                             },
                             [_vm._v("Delete")]
                           )

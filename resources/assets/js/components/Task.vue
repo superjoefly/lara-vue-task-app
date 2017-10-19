@@ -28,7 +28,7 @@
                 <td>{{ task.description }}</td>
                 <td>
                   <button class="w3-button w3-green w3-small w3-round" @click="initUpdate(index)">Edit</button>
-                  <button class="w3-button w3-red w3-small w3-round">Delete</button>
+                  <button class="w3-button w3-red w3-small w3-round" @click="deleteTask(index)">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -132,7 +132,8 @@ export default {
       },
       errors: [],
       tasks: [],
-      update_task: {}
+      update_task: {},
+      message: ''
     }
   },
   mounted() {
@@ -209,6 +210,19 @@ export default {
           this.errors.push(error.response.data.errors.description[0]);
         }
       });
+    },
+    deleteTask(index) {
+      let conf = confirm('Delete Task?');
+      if (conf === true) {
+        axios.delete('/task/' + this.tasks[index].id)
+        .then(response => {
+          this.tasks.splice(index, 1);
+          this.readTasks();
+        })
+        .catch(error => {
+          this.message = 'Unable to delete task!';
+        });
+      }
     }
   }
 }

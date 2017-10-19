@@ -40953,10 +40953,10 @@ var render = function() {
                         _vm._v(" "),
                         _c("td", [
                           _c(
-                            "button",
+                            "a",
                             {
-                              staticClass:
-                                "w3-button w3-green w3-small w3-round",
+                              staticClass: "w3-text-green w3-small w3-padding",
+                              attrs: { href: "#" },
                               on: {
                                 click: function($event) {
                                   _vm.initUpdate(index)
@@ -40967,9 +40967,10 @@ var render = function() {
                           ),
                           _vm._v(" "),
                           _c(
-                            "button",
+                            "a",
                             {
-                              staticClass: "w3-button w3-red w3-small w3-round",
+                              staticClass: "w3-text-red w3-small",
+                              attrs: { href: "#" },
                               on: {
                                 click: function($event) {
                                   _vm.deleteTask(index)
@@ -41265,7 +41266,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "w3-panel w3-pale-blue w3-margin" }, [
-      _c("h1", [_vm._v("Task App")])
+      _c("h3", { staticClass: "w3-center" }, [_vm._v("Task App")])
     ])
   },
   function() {

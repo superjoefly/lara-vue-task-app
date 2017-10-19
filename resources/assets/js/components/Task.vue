@@ -4,7 +4,7 @@
       <div class="w3-col m-12">
 
         <div class="w3-panel w3-pale-blue w3-margin">
-          <h1>Task App</h1>
+          <h3 class="w3-center">Task App</h3>
         </div>
 
         <div class="w3-container">
@@ -27,8 +27,8 @@
                 <td>{{ task.name }}</td>
                 <td>{{ task.description }}</td>
                 <td>
-                  <button class="w3-button w3-green w3-small w3-round" @click="initUpdate(index)">Edit</button>
-                  <button class="w3-button w3-red w3-small w3-round" @click="deleteTask(index)">Delete</button>
+                  <a href="#" class="w3-text-green w3-small w3-padding" @click="initUpdate(index)">Edit</a>
+                  <a href="#" class="w3-text-red w3-small" @click="deleteTask(index)">Delete</a>
                 </td>
               </tr>
             </tbody>
